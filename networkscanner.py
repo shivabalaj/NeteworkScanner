@@ -5,14 +5,12 @@ import ipaddress
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# -------- Host Discovery --------
 def is_host_alive(ip):
     param = "-n" if platform.system().lower() == "windows" else "-c"
     command = ["ping", param, "1", str(ip)]
     result = subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return result.returncode == 0
 
-# -------- Port Scanning --------
 def scan_port(ip, port):
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -34,7 +32,7 @@ def scan_ports(ip, ports):
                 open_ports.append(port)
     return open_ports
 
-# -------- Main Function --------
+
 def main():
     parser = argparse.ArgumentParser(description="Simple Python Network Scanner")
     parser.add_argument("-n", "--network", help="Target network/subnet (e.g. 192.168.1.0/24)", required=True)
